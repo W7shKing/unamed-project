@@ -1,12 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { View, Text, TextInput, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
 import { useTranslation } from 'react-i18next';
 import { fetchDubaiPOIs } from '../services/overpass';
 import { getUnsplashPhotoForPlace } from '../services/unsplash';
 import { getCrowdLevel } from '../services/crowd';
 import TrendingCarousel from '../components/TrendingCarousel';
 import CrowdLevelBadge from '../components/CrowdLevelBadge';
+import SafeMap from '../components/SafeMap';
 
 interface PlaceItem {
 	id: string;
@@ -67,19 +67,10 @@ export default function HomeScreen() {
 				</TouchableOpacity>
 			</View>
 
-			<MapView
-				style={styles.map}
-				initialRegion={{
-					latitude: 25.2048,
-					longitude: 55.2708,
-					latitudeDelta: 0.2,
-					longitudeDelta: 0.2,
-				}}
-			>
-				{filtered.slice(0, 40).map((p) => (
-					<Marker key={p.id} coordinate={{ latitude: p.lat, longitude: p.lon }} title={p.title} />
-				))}
-			</MapView>
+			<SafeMap
+				height={260}
+				markers={filtered.slice(0, 40).map((p) => ({ id: p.id, latitude: p.lat, longitude: p.lon, title: p.title }))}
+			/>
 
 			<View style={styles.sectionHeader}>
 				<Text style={styles.sectionTitle}>{t('trending_now')}</Text>
@@ -115,7 +106,6 @@ const styles = StyleSheet.create({
 	searchBar: { flexDirection: 'row', padding: 12, gap: 8, alignItems: 'center', backgroundColor: '#0B0F1A' },
 	input: { flex: 1, backgroundColor: '#12182A', color: 'white', padding: 10, borderRadius: 10 },
 	clear: { color: '#8EA6FF', paddingHorizontal: 8 },
-	map: { height: 260, borderRadius: 12, marginHorizontal: 12 },
 	sectionHeader: { flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 12, paddingVertical: 10 },
 	sectionTitle: { color: 'white', fontSize: 18, fontWeight: '600' },
 	link: { color: '#8EA6FF' },
