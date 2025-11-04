@@ -1,0 +1,19 @@
+{
+  "expo": {
+    "name": "Jadwalni",
+    "slug": "jadwalni",
+    "scheme": "jadwalni",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {},
+    "web": {
+      "bundler": "metro"
+    }
+  }
+}
